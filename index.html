@@ -5,15 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Animated Flowers</title>
     <style>
+      /* General Styles */
       body {
+        margin: 0;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+      }
+
+      /* Dark Mode */
+      .dark-mode {
+        background-color: #121212;
+        color: #e0e0e0;
+      }
+
+      .dark-mode .container {
+        border-color: #444;
+      }
+
+      .dark-mode .rose .petal {
+        background-color: #f06292;
+      }
+
+      .dark-mode .tulip-petal {
+        background-color: #ff8a65;
+      }
+
+      .container {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: #f3f4f6;
-        margin: 0;
+        position: relative;
       }
 
+      .background {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: -1;
+      }
+
+      .circle {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        animation: move 15s infinite linear;
+      }
+
+      .circle2 {
+        width: 100px;
+        height: 100px;
+        top: 10%;
+        left: 15%;
+        animation-duration: 20s;
+      }
+
+      .circle3 {
+        width: 110px;
+        height: 110px;
+        top: 50%;
+        right: 10%;
+        animation-duration: 25s;
+      }
+
+      @keyframes move {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(100vw, 100vh);
+        }
+      }
+
+      .wave {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 100px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50% 50% 0 0;
+        animation: wave 10s infinite linear;
+      }
+
+      @keyframes wave {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      /* Flower Styles */
       .garden {
         display: flex;
         gap: 50px;
@@ -26,7 +110,6 @@
         height: 200px;
       }
 
-      /* Rose styles */
       .petal {
         position: absolute;
         width: 50px;
@@ -85,7 +168,6 @@
         transform: rotate(45deg);
       }
 
-      /* Tulip styles */
       .tulip-petal {
         position: absolute;
         width: 40px;
@@ -135,7 +217,7 @@
 
       .text {
         position: absolute;
-        bottom: 10px;
+        bottom: 80px;
         left: 50%;
         transform: translateX(-50%);
         font-size: 18px;
@@ -145,6 +227,11 @@
         overflow: hidden;
         border-right: 2px solid #e91e63;
         animation: typing 5s steps(20) forwards, blink 0.7s step-end infinite;
+      }
+
+      .dark-mode .text {
+        color: white;
+        font-weight: bold;
       }
 
       /* Typing effect */
@@ -173,27 +260,107 @@
           transform: scale(1.1);
         }
       }
+
+      /* Dark mode toggle button */
+      .toggle-dark-mode {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #e91e63;
+        color: white;
+      }
+
+      .dark-mode .ocean {
+        height: 5%;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        background: #015871;
+      }
+
+      .dark-mode .wave {
+        background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg)
+          repeat-x;
+        position: absolute;
+        top: -198px;
+        width: 6400px;
+        height: 198px;
+        animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+        transform: translate3d(0, 0, 0);
+      }
+
+      .dark-mode .wave:nth-of-type(2) {
+        top: -175px;
+        animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -0.125s infinite,
+          swell 7s ease -1.25s infinite;
+        opacity: 1;
+      }
+
+      @keyframes wave {
+        0% {
+          margin-left: 0;
+        }
+        100% {
+          margin-left: -1600px;
+        }
+      }
+
+      @keyframes swell {
+        0%,
+        100% {
+          transform: translate3d(0, -25px, 0);
+        }
+        50% {
+          transform: translate3d(0, 5px, 0);
+        }
+      }
     </style>
   </head>
   <body>
-    <div class="garden">
-      <div class="rose">
-        <div class="petal petal1"></div>
-        <div class="petal petal2"></div>
-        <div class="petal petal3"></div>
-        <div class="petal petal4"></div>
-        <div class="stem"></div>
-        <div class="leaf leaf1"></div>
-        <div class="leaf leaf2"></div>
+    <div class="container">
+      <div class="background">
+        <div class="circle"></div>
+        <div class="circle circle2"></div>
+        <div class="circle circle3"></div>
+        <div class="ocean">
+          <div class="wave"></div>
+          <div class="wave"></div>
+        </div>
       </div>
-      <div class="tulip">
-        <div class="tulip-petal tulip-petal1"></div>
-        <div class="tulip-petal tulip-petal2"></div>
-        <div class="tulip-petal tulip-petal3"></div>
-        <div class="tulip-stem"></div>
-        <div class="tulip-leaf tulip-leaf1"></div>
+      <div class="garden">
+        <div class="rose">
+          <div class="petal petal1"></div>
+          <div class="petal petal2"></div>
+          <div class="petal petal3"></div>
+          <div class="petal petal4"></div>
+          <div class="stem"></div>
+          <div class="leaf leaf1"></div>
+          <div class="leaf leaf2"></div>
+        </div>
+        <div class="tulip">
+          <div class="tulip-petal tulip-petal1"></div>
+          <div class="tulip-petal tulip-petal2"></div>
+          <div class="tulip-petal tulip-petal3"></div>
+          <div class="tulip-stem"></div>
+          <div class="tulip-leaf tulip-leaf1"></div>
+        </div>
       </div>
+      <div class="text">Valobashi Hoimonti</div>
+      <button class="toggle-dark-mode">Toggle Dark Mode</button>
     </div>
-    <div class="text">Valobashi Hoimonti</div>
+    <script>
+      // script.js
+      document
+        .querySelector(".toggle-dark-mode")
+        .addEventListener("click", () => {
+          document.body.classList.toggle("dark-mode");
+        });
+    </script>
   </body>
 </html>
