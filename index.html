@@ -3,363 +3,194 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Animated Flowers</title>
+    <title>Love Letter</title>
     <style>
-      /* General Styles */
       body {
-        margin: 0;
-        overflow: hidden;
-        font-family: Arial, sans-serif;
-      }
-
-      /* Dark Mode */
-      .dark-mode {
-        background-color: #121212;
-        color: #e0e0e0;
-      }
-
-      .dark-mode .container {
-        border-color: #444;
-      }
-
-      .dark-mode .rose .petal {
-        background-color: #f06292;
-      }
-
-      .dark-mode .tulip-petal {
-        background-color: #ff8a65;
-      }
-
-      .container {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        position: relative;
+        margin: 0;
+        font-family: "Cursive", sans-serif;
+        background-color: #ffe4e1;
+        background-image: linear-gradient(to top, #ff9aa2, #ffb6c1);
+        overflow: hidden;
       }
 
-      .background {
-        position: absolute;
+      .envelope {
+        width: 400px;
+        height: 300px;
+        position: relative;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        transform: scale(1.1);
+        transition: transform 1s ease-in-out;
+        overflow: hidden;
+      }
+
+      .letter {
         width: 100%;
         height: 100%;
-        overflow: hidden;
+        position: absolute;
+        top: -100%;
+        background: #fff;
+        padding: 20px;
+        box-sizing: border-box;
+        border-radius: 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        overflow-y: auto;
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+      }
+
+      .letter::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+      }
+
+      .letter-content {
+        opacity: 0;
+        transition: opacity 1s ease-in-out;
+        max-height: 400px;
+      }
+
+      .letter-content h1 {
+        font-family: "Cursive", sans-serif;
+        text-align: center;
+        color: #ff1493;
+      }
+
+      .letter-content p {
+        font-family: "Cursive", sans-serif;
+        line-height: 1.5;
+        font-size: 1.2rem;
+        color: #333;
+      }
+
+      .open-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 1.2rem;
+        background-color: #ff1493;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .open-button:hover {
+        background-color: #ff69b4;
+      }
+
+      /* Heart Animation */
+      .heart-container {
+        position: absolute;
+        top: 10%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
         z-index: -1;
       }
 
-      .circle {
-        position: absolute;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.2);
-        animation: move 15s infinite linear;
-      }
-
-      .circle2 {
-        width: 100px;
-        height: 100px;
-        top: 10%;
-        left: 15%;
-        animation-duration: 20s;
-      }
-
-      .circle3 {
-        width: 110px;
-        height: 110px;
-        top: 50%;
-        right: 10%;
-        animation-duration: 25s;
-      }
-
-      @keyframes move {
-        0% {
-          transform: translate(0, 0);
-        }
-        100% {
-          transform: translate(100vw, 100vh);
-        }
-      }
-
-      .wave {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 100px;
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: 50% 50% 0 0;
-        animation: wave 10s infinite linear;
-      }
-
-      @keyframes wave {
-        0% {
-          transform: translateX(-100%);
-        }
-        100% {
-          transform: translateX(100%);
-        }
-      }
-
-      /* Flower Styles */
-      .garden {
-        display: flex;
-        gap: 50px;
-      }
-
-      .rose,
-      .tulip {
-        position: relative;
-        width: 100px;
-        height: 200px;
-      }
-
-      .petal {
-        position: absolute;
-        width: 50px;
-        height: 50px;
-        background-color: #e91e63;
-        border-radius: 50%;
-        animation: bloom 4s infinite ease-in-out;
-      }
-
-      .petal1 {
-        top: 20px;
-        left: 25px;
-      }
-      .petal2 {
-        top: 5px;
-        left: 0;
-        transform: rotate(45deg);
-      }
-      .petal3 {
-        top: 5px;
-        right: 0;
-        transform: rotate(-45deg);
-      }
-      .petal4 {
-        top: 20px;
-        left: 25px;
-        transform: rotate(90deg);
-      }
-
-      .stem {
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        width: 10px;
-        height: 100px;
-        background-color: #4caf50;
-        transform: translateX(-50%);
-      }
-
-      .leaf {
-        position: absolute;
-        width: 40px;
+      .heart {
+        width: 20px;
         height: 20px;
-        background-color: #4caf50;
-        border-radius: 20px;
-      }
-
-      .leaf1 {
-        bottom: 40px;
-        left: -30px;
+        background-color: #ff1493;
+        position: relative;
         transform: rotate(-45deg);
-      }
-      .leaf2 {
-        bottom: 40px;
-        right: -30px;
-        transform: rotate(45deg);
+        animation: float 4s infinite ease-in-out;
       }
 
-      .tulip-petal {
+      .heart:before,
+      .heart:after {
+        content: "";
+        width: 20px;
+        height: 20px;
+        background-color: #ff1493;
+        border-radius: 50%;
         position: absolute;
-        width: 40px;
-        height: 60px;
-        background-color: #ff5722;
-        border-radius: 50% 50% 0 0;
       }
 
-      .tulip-petal1 {
-        top: 20px;
-        left: 30px;
-      }
-      .tulip-petal2 {
-        top: 10px;
-        left: 15px;
-        transform: rotate(-20deg);
-      }
-      .tulip-petal3 {
-        top: 10px;
-        right: 15px;
-        transform: rotate(20deg);
-      }
-
-      .tulip-stem {
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        width: 10px;
-        height: 100px;
-        background-color: #388e3c;
-        transform: translateX(-50%);
-      }
-
-      .tulip-leaf {
-        position: absolute;
-        width: 30px;
-        height: 15px;
-        background-color: #388e3c;
-        border-radius: 20px;
-        transform: rotate(-20deg);
-      }
-
-      .tulip-leaf1 {
-        bottom: 40px;
-        left: -20px;
-      }
-
-      .text {
-        position: absolute;
-        bottom: 80px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 18px;
-        font-weight: bold;
-        color: #e91e63;
-        white-space: nowrap;
-        overflow: hidden;
-        border-right: 2px solid #e91e63;
-        animation: typing 5s steps(20) forwards, blink 0.7s step-end infinite;
-      }
-
-      .dark-mode .text {
-        color: white;
-        font-weight: bold;
-      }
-
-      /* Typing effect */
-      @keyframes typing {
-        from {
-          width: 0;
-        }
-        to {
-          width: 17ch;
-        }
-      }
-
-      /* Cursor blink effect */
-      @keyframes blink {
-        50% {
-          border-color: transparent;
-        }
-      }
-
-      @keyframes bloom {
-        0%,
-        100% {
-          transform: scale(0.9);
-        }
-        50% {
-          transform: scale(1.1);
-        }
-      }
-
-      /* Dark mode toggle button */
-      .toggle-dark-mode {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        border: none;
-        border-radius: 5px;
-        background-color: #e91e63;
-        color: white;
-      }
-
-      .dark-mode .ocean {
-        height: 5%;
-        width: 100%;
-        position: absolute;
-        bottom: 0;
+      .heart:before {
+        top: -10px;
         left: 0;
-        background: #015871;
       }
 
-      .dark-mode .wave {
-        background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg)
-          repeat-x;
-        position: absolute;
-        top: -198px;
-        width: 6400px;
-        height: 198px;
-        animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
-        transform: translate3d(0, 0, 0);
+      .heart:after {
+        left: 10px;
+        top: 0;
       }
 
-      .dark-mode .wave:nth-of-type(2) {
-        top: -175px;
-        animation: wave 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -0.125s infinite,
-          swell 7s ease -1.25s infinite;
-        opacity: 1;
-      }
-
-      @keyframes wave {
-        0% {
-          margin-left: 0;
-        }
-        100% {
-          margin-left: -1600px;
-        }
-      }
-
-      @keyframes swell {
+      @keyframes float {
         0%,
         100% {
-          transform: translate3d(0, -25px, 0);
+          transform: translateY(0) rotate(-45deg);
+          opacity: 0.8;
         }
         50% {
-          transform: translate3d(0, 5px, 0);
+          transform: translateY(-20px) rotate(-45deg);
+          opacity: 0;
         }
+      }
+
+      .heart:nth-child(1) {
+        animation-delay: 0s;
+      }
+
+      .heart:nth-child(2) {
+        animation-delay: 1s;
+      }
+
+      .heart:nth-child(3) {
+        animation-delay: 2s;
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="background">
-        <div class="circle"></div>
-        <div class="circle circle2"></div>
-        <div class="circle circle3"></div>
-        <div class="ocean">
-          <div class="wave"></div>
-          <div class="wave"></div>
+    <div class="envelope">
+      <div class="heart-container">
+        <div class="heart"></div>
+        <div class="heart"></div>
+        <div class="heart"></div>
+      </div>
+      <div class="letter">
+        <div class="letter-content">
+          <h1>To My Love</h1>
+          <p>My dearest Hoimonti,</p>
+          <p>
+            I wanted to take a moment to tell you just how much you mean to me.
+            Every day with you is a gift that I treasure more than words can
+            express. You bring so much joy and love into my life, and I am
+            endlessly grateful for you.
+          </p>
+          <p>
+            I look forward to many more adventures together, holding your hand
+            through it all.
+          </p>
+          <p>With all my love,</p>
+          <p>😘</p>
         </div>
       </div>
-      <div class="garden">
-        <div class="rose">
-          <div class="petal petal1"></div>
-          <div class="petal petal2"></div>
-          <div class="petal petal3"></div>
-          <div class="petal petal4"></div>
-          <div class="stem"></div>
-          <div class="leaf leaf1"></div>
-          <div class="leaf leaf2"></div>
-        </div>
-        <div class="tulip">
-          <div class="tulip-petal tulip-petal1"></div>
-          <div class="tulip-petal tulip-petal2"></div>
-          <div class="tulip-petal tulip-petal3"></div>
-          <div class="tulip-stem"></div>
-          <div class="tulip-leaf tulip-leaf1"></div>
-        </div>
-      </div>
-      <div class="text">Valobashi Hoimonti</div>
-      <button class="toggle-dark-mode">Toggle Dark Mode</button>
     </div>
+
+    <button id="openLetter" class="open-button">Open Letter</button>
+
     <script>
-      // script.js
       document
-        .querySelector(".toggle-dark-mode")
-        .addEventListener("click", () => {
-          document.body.classList.toggle("dark-mode");
+        .getElementById("openLetter")
+        .addEventListener("click", function () {
+          const envelope = document.querySelector(".envelope");
+          const letter = document.querySelector(".letter");
+          const letterContent = document.querySelector(".letter-content");
+
+          envelope.style.transform = "scale(1)";
+          letter.style.top = "0";
+          setTimeout(() => {
+            letterContent.style.opacity = "1";
+          }, 1000);
         });
     </script>
   </body>
